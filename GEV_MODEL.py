@@ -30,7 +30,7 @@ class MyTakeStep:
 	def __init__(self, stepsize=1):
 	   self.stepsize = stepsize
 	   self.rng = np.random.default_rng()
-	   #self.rng1 = np.random.default_rng()
+	   #self.rng1 = np.random.default_rng()sp
 	def __call__(self, x):
 	   self.stepsize = self.stepsize*0.99#annealing 4.347851452142499
 	   s = self.stepsize
@@ -45,7 +45,7 @@ class MyTakeStep:
 
 durations = [1]#days
 file_paths = [
-	"./Los Angeles_time_series.txt",
+	"./Los Angeles_time_series.txt",#block maxima precip
 ]
 for idx, file_path in enumerate(file_paths):
 	b=0.9999#use any support
@@ -53,7 +53,7 @@ for idx, file_path in enumerate(file_paths):
 	with open(file_path, 'r') as file:
 	   data = [float(line.strip()) for line in file]
 	   gg = np.array(data)  # Convert list to numpy array
-	   xc = np.linspace(a,b, len(gg)) # we train on linspace you may be able to in logspace
+	   xc = np.linspace(a,b, len(gg)) # we train on linspace against block maxima 
 	   x = torch.from_numpy(xc)#.to(device='cuda')
 	   liss1=(torch.from_numpy(np.sort(gg))/(durations[0]))#.to(device='cuda')#, my cpu runs it faster than my gpu but this isincase
 	shape=-0.01#initial estimate
