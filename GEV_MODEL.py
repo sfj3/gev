@@ -17,7 +17,7 @@ def ll(params):
 	shape=params[0]
 	scale = params[1]
 	loc=params[2]#-0.0001
-	if scale>0 and scale1>0:
+	if scale>0:
 		b = np.array(gev.ppf(xc, c=shape,loc=loc,scale=scale))
 		loss = np.sum([0.1 for i in b if i <= 0])
 		b = torch.from_numpy(b)#.to(device='cuda')
@@ -48,14 +48,15 @@ file_paths = [
 	"./Los Angeles_time_series.txt",
 ]
 for idx, file_path in enumerate(file_paths):
+	b=0.9999#use any support
+	a=0.1
 	with open(file_path, 'r') as file:
 	   data = [float(line.strip()) for line in file]
 	   gg = np.array(data)  # Convert list to numpy array
-	   xc = np.linspace(0.1,0.9999, len(gg))
+	   xc = np.linspace(a,b, len(gg)) # we train on linspace you may be able to in logspace
 	   x = torch.from_numpy(xc)#.to(device='cuda')
 	   liss1=(torch.from_numpy(np.sort(gg))/(durations[0]))#.to(device='cuda')#, my cpu runs it faster than my gpu but this isincase
-	#initial estimate
-	shape=-0.01
+	shape=-0.01#initial estimate
 	scale=1
 	loc=5
 	x1=[shape,scale,loc]
@@ -63,7 +64,8 @@ for idx, file_path in enumerate(file_paths):
 	mytakestep = MyTakeStep()
 	ret = basinhopping(ll,x1,minimizer_kwargs=minimizer_kwargs,niter=100,take_step=mytakestep)
 	fig, ax = plt.subplots()
-	x = np.linspace(0.1,0.9999, len(gg))
+	x = np.linspace(a,b, len(gg))
 	xx = np.log(np.divide(1,np.ones_like(x)-x))
 	#the confidence interval is binomial 90%
 	res1 = np.array(gev.ppf(x, ret.x[0], ret.x[2], ret.x[1])) #these are the estimated params
+	print('real',liss1,'estimate',res1)
