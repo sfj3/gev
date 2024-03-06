@@ -8,10 +8,6 @@ from scipy.special import gamma
 import torch
 device = 'cpu'#'cuda' if torch.cuda.is_available() else 'cpu'
 
-def log_format(x, pos):
-    """Custom formatter to return the exponent of the log scale."""
-    return f'{np.exp(x):.0f}'
-
 def ll(params):
 	loss=0
 	shape=params[0]
@@ -30,7 +26,6 @@ class MyTakeStep:
 	def __init__(self, stepsize=1):
 	   self.stepsize = stepsize
 	   self.rng = np.random.default_rng()
-	   #self.rng1 = np.random.default_rng()
 	def __call__(self, x):
 	   self.stepsize = self.stepsize*0.99#annealing 4.347851452142499
 	   s = self.stepsize
@@ -45,7 +40,7 @@ class MyTakeStep:
 
 durations = [1]#days
 file_paths = [
-	"./Los Angeles_time_series.txt",
+	"./Los Angeles_time_series.txt",#line by line precip block maxima in mm
 ]
 for idx, file_path in enumerate(file_paths):
 	with open(file_path, 'r') as file:
@@ -65,5 +60,4 @@ for idx, file_path in enumerate(file_paths):
 	fig, ax = plt.subplots()
 	x = np.linspace(0.1,0.9999, len(gg))
 	xx = np.log(np.divide(1,np.ones_like(x)-x))
-	#the confidence interval is binomial 90%
 	res1 = np.array(gev.ppf(x, ret.x[0], ret.x[2], ret.x[1])) #these are the estimated params
