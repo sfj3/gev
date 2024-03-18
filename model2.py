@@ -134,7 +134,7 @@ colors = {
 }
 
 # Create a 3x2 subplot structure
-fig, axs = plt.subplots(2, 3, figsize=(15, 10))
+fig, axs = plt.subplots(3, 2, figsize=(15, 10))
 axs = axs.flatten()  # Flatten to 1D array for easy indexing
 
 for idx, file_path in enumerate(file_paths):
@@ -176,7 +176,7 @@ for idx, file_path in enumerate(file_paths):
 	ax = axs[idx]
 	xx = np.log(np.divide(1, np.ones_like(x) - x))
 	ax.grid(True, which='both', color='gray', linestyle='-', linewidth=0.5)
-	ax.plot(xx, liss1, label='Empirical Data', color=colors['raw_data'],linestyle="dotted")
+	ax.plot(xx, liss1, label='Empirical Data', color=colors['raw_data'],linestyle="dotted",linewidth=2)
 	ax.plot(xx, res1, label='Model Estimate', color=colors['model_estimate'])
 
 	"""stat_params = gev_params[city_name]['Stat']

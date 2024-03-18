@@ -1,2 +1,2 @@
 # gev
-an algorithm to estimate GEV distributional parameters for d durational precipitation events
+an algorithm to estimate GEV distributional parameters for precipitation events
