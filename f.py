@@ -25,18 +25,18 @@ def ll(params):
 class MyTakeStep:
 	def __init__(self, stepsize=1):
 	   self.stepsize = stepsize
-	   self.rng = np.random.default_rng()
+       self.rng = np.random.default_rng()
 	def __call__(self, x):
-	   self.stepsize = self.stepsize*0.99#annealing 4.347851452142499
-	   s = self.stepsize
-	   if x[0]>3 or x[0]<3:
-	   	x[0]=0.001
-	   x[0] = -1*x[0]+torch.tensor(self.rng.normal(0.11,0.01*s)).float() #shape
-	   x[2]= torch.tensor(self.rng.normal(x[2], 10*s)).float() #loc
-	   x[1] = torch.abs(torch.tensor(self.rng.normal(x[1],3*s)).float()) #scale
-	   self.x= torch.nan_to_num(torch.from_numpy(x),nan=self.rng.normal(1,1)).cpu().detach().numpy()
-	   self.x = x
-	   return x.tolist()
+		self.stepsize = self.stepsize*0.99#annealing 4.347851452142499
+		s = self.stepsize
+		if x[0]>3 or x[0]<3:
+		x[0]=0.001
+		x[0] = -1*x[0]+torch.tensor(self.rng.normal(0.11,0.01*s)).float() #shape
+		x[2]= torch.tensor(self.rng.normal(x[2], 10*s)).float() #loc
+		x[1] = torch.abs(torch.tensor(self.rng.normal(x[1],3*s)).float()) #scale
+		self.x= torch.nan_to_num(torch.from_numpy(x),nan=self.rng.normal(1,1)).cpu().detach().numpy()
+		self.x = x
+		return x.tolist()
 
 durations = [1]#days
 file_paths = [
