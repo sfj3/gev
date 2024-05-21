@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sheet and Map Integration</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxesS7EoUX2zTAuiENeXvrZRq68dM7kVo"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Google Sheet and Map Integration</h1>
+    
+    <div>
+        <h2>Google Sheet</h2>
+        <iframe src="https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pubhtml?widget=true&amp;headers=false"></iframe>
+    </div>
+    
+    <div>
+        <h2>Google Map</h2>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+    </div>
+    
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 2
+            });
+            
+            // Make an AJAX request to the Lambda function
+            $.ajax({
+                url: 'YOUR_LAMBDA_FUNCTION_URL',
+                type: 'GET',
+                success: function(data) {
+                    // Process the data and add markers to the map
+                    data.forEach(function(item) {
+                        var marker = new google.maps.Marker({
+                            position: { lat: item.lat, lng: item.lng },
+                            map: map,
+                            title: item.title
+                        });
+                    });
+                }
+            });
+        }
+        
+        google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+</body>
+</html>
